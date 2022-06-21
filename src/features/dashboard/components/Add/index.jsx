@@ -1,10 +1,10 @@
-import React from "react";
-import Check from "../check";
-import { IoAddSharp } from "react-icons/io5";
-import "./style.scss";
 import { useState } from "react";
+import { IoAddSharp } from "react-icons/io5";
 import { useDispatch } from "react-redux";
+import { incrementCouter } from "../../filterSlice";
 import { addTodo } from "../../todoSlice";
+import Check from "../check";
+import "./style.scss";
 const Add = () => {
   const [isIcon, setIsIcon] = useState(true);
   const [name, setName] = useState("");
@@ -19,6 +19,7 @@ const Add = () => {
           isCompleted: false,
         })
       );
+      dispath(incrementCouter());
       setName("");
     }
   }

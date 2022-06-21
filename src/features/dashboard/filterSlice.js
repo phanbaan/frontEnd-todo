@@ -1,24 +1,33 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+
 
 export const filterSlice = createSlice({
   name: 'filters',
   initialState: {
     searchText:"",
     priority:"",
-    id: ""
+    todoEdit: {},
+    sortStatus:false,
+    couter:2,
   },
   reducers: {
     filtersSearchText: (state ,action)=> {
         state.searchText = action.payload
     },
-    filterPriority: (state,action)=> {
-      state.priority = action.payload
+    filterStatus : (state,action) =>{
+      state.sortStatus = action.payload
     },
-    filterId: (state,action)=>{
-      state.id = action.id
+    incrementCouter: (state,action)=>{
+      state.couter = state.couter +1;
+    },
+    decrementCouter: (state,action)=>{
+      state.couter = state.couter - 1;
+    },
+    filterTodoEdit: (state,action)=>{
+      state.todoEdit = action.payload
     }
   }
 })
-export const {filtersSearchText,filterPriority,filterId} = filterSlice.actions;
+export const {filtersSearchText,couterTodo,filterStatus,incrementCouter,decrementCouter ,filterTodoEdit} = filterSlice.actions;
 export default filterSlice
 

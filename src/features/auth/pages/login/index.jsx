@@ -1,8 +1,36 @@
-import React from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import IMAGES from "../../../../assets/images";
+import { isLoggedInSelector } from "../../../../redux/selectors";
+import { login } from "../../../../redux/userSlice";
 import "./style.scss";
 const Login = () => {
+  const dispath = useDispatch();
+  const navigate = useNavigate();
+  const isLogged = useSelector(isLoggedInSelector);
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  function handleLogin(e) {
+    e.preventDefault();
+    const user = {
+      email,
+      password,
+    };
+    dispath(login(user));
+  }
+  useEffect(() => {
+    if (isLogged) {
+      navigate("/todos");
+    } else {
+      navigate("/");
+    }
+
+    //  return () => {
+    //    second
+    //  }
+  }, [isLogged]);
+
   return (
     <div className="container">
       <div className="login">
@@ -14,14 +42,23 @@ const Login = () => {
         <div className="login__right">
           <div className="form">
             <div className="form__title">Đăng nhập tài khoản</div>
-            <form className="form-box">
+            <form className="form-box" onSubmit={handleLogin}>
               <div className="input-group">
                 <span>Tên đăng nhập</span>
-                <input type="text" className="input" />
+                <input
+                  type="text"
+                  className="input"
+                  name="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="input-group">
                 <span>Mật khẩu</span>
-                <input type="password" className="input" />
+                <input
+                  type="password"
+                  className="input"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
               <div className="remember">
                 <input

@@ -11,7 +11,6 @@ export const todoSlice = createSlice({
         state.push(action.payload)
     },
     editTodo:(state,action)=>{
-      console.log(state,action)
         const todos =action.payload;
         let editTodo =state.find(todo=>todo.id===todos.id);
         editTodo.id = todos.id;
@@ -34,7 +33,7 @@ export const todoSlice = createSlice({
       const edit = state.find(todo=>todo.id===id)
       edit.priority = !edit.priority;
       return state;
-    }
+    },
   }
 })
 

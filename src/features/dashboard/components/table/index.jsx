@@ -1,18 +1,19 @@
-import React from "react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { todosSelector } from "../../../../redux/selectors";
+import { filterTodoEdit } from "../../filterSlice";
 import Check from "../check";
 import Start from "../star";
 import "./style.scss";
 const Table = ({ onEditClick, handleEditClick }) => {
   const todos = useSelector(todosSelector);
+  const dispath = useDispatch();
   const onEditTodoClick = (todo) => {
     if (typeof onEditClick !== "undefined") {
       onEditClick(todo.id);
     } else {
       handleEditClick(todo);
     }
+    dispath(filterTodoEdit(todo));
   };
   return (
     <div className="table">

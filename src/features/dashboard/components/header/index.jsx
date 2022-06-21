@@ -1,22 +1,40 @@
-import React from "react";
-import "./style.scss";
+import { useState } from "react";
+import { IoHelp, IoMegaphoneOutline } from "react-icons/io5";
 import {
+  MdCake,
   MdDashboard,
+  MdEmojiPeople,
+  MdLocationOn,
+  MdLogout,
   MdOutlineSearch,
   MdOutlineSettings,
+  MdDeleteOutline,
 } from "react-icons/md";
-import { IoHelp, IoMegaphoneOutline } from "react-icons/io5";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import IMAGES from "../../../../assets/images";
-import { useState } from "react";
+import { userSelector } from "../../../../redux/selectors";
+import { getUser, logout, remove } from "../../../../redux/userSlice";
 import { filtersSearchText } from "../../filterSlice";
+import "./style.scss";
 
 const Header = () => {
   const [searchText, setSearchText] = useState();
+  const user = useSelector(userSelector) || null;
+  if (!user) {
+  }
+  const { name, address, age } = user;
+
   const dispath = useDispatch();
   const handleOnChange = (e) => {
+    setSearchText(e.target.value);
     dispath(filtersSearchText(e.target.value));
   };
+  function handleLogout() {
+    dispath(remove);
+  }
+  function handleRemove() {
+    dispath(remove);
+  }
   return (
     <div className="header">
       <div className="header__left">
@@ -49,6 +67,29 @@ const Header = () => {
           </div>
           <div className="acount__item">
             <img src={IMAGES.avatar} alt="" className="avatar" width={50} />
+            <div className="info">
+              <ul className="info-list">
+                <li className="info-item">
+                  <MdEmojiPeople />
+                  Hello: <span>{name}</span>
+                </li>
+                <li className="info-item">
+                  <MdLocationOn />
+                  Địa chỉ: <span> {address}</span>
+                </li>
+                <li className="info-item">
+                  <MdCake /> Tuổi: <span>{age}</span>
+                </li>
+                <li className="info-item" onClick={handleRemove}>
+                  <MdDeleteOutline />
+                  Xóa tài khoản
+                </li>
+                <li className="info-item" onClick={handleLogout}>
+                  <MdLogout />
+                  Logout
+                </li>
+              </ul>
+            </div>
           </div>
         </ul>
       </div>

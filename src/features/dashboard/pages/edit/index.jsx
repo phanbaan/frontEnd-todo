@@ -6,10 +6,8 @@ import Title from "../../components/title";
 import Widget from "../../components/widget";
 import "./style.scss";
 const Edit = () => {
-  const [todoEdit, setTodoEdit] = useState({});
   const navigate = useNavigate();
   function handleEditClick(todo) {
-    setTodoEdit(todo);
     navigate(`../${todo.id}`);
   }
   return (
@@ -25,7 +23,7 @@ const Edit = () => {
         <Table handleEditClick={handleEditClick} />
       </div>
       <div className="list__widget">
-        <Widget todoEdit={todoEdit} />
+        <Widget />
       </div>
     </div>
   );

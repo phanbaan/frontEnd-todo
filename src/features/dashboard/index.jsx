@@ -1,46 +1,36 @@
-// import React from "react";
-// import { useRouteMatch, Switch, Route, Redirect } from "react-router-dom";
-// import Header from "./components/header";
-// import Sidebar from "./components/sidebar";
-// import Edit from "./pages/edit";
-// import Plan from "./pages/plan";
-// import Today from "./pages/today/Index";
-// import "./style.scss";
-// const Dashboard = () => {
-//   const { url, path } = useRouteMatch();
-//   return (
-//     <div className="dashboard">
-//       <Header />
-//       <div className="dashboard__content">
-//         <div className="sidebar">
-//           <Sidebar />
-//         </div>
-//         <div className="content">
-//           <Switch>
-//             <Route exact path={`${path}/today`} component={Today} />
-//             <Route path={`${path}/:editId`} component={Edit} />
-//           </Switch>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Dashboard;
-import React from "react";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import Add from "./components/Add";
+import Toast from "../../components/toast";
+import { userSelector } from "../../redux/selectors";
 import Header from "./components/header";
 import Sidebar from "./components/sidebar";
-import Table from "./components/table";
-import Title from "./components/title";
-
+import { useSelector } from "react-redux";
 import "./style.scss";
+import { useEffect } from "react";
 const Todos = () => {
-  const handleTodoEdit = (todo) => {};
+  const user = useSelector(userSelector);
+
+  const [status, setStatus] = useState(true);
+  const { name } = user;
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      setStatus(false);
+    }, 6000);
+
+    return () => {
+      clearTimeout(timeId);
+    };
+  }, []);
 
   return (
     <div className="dashboard">
+      {status && (
+        <Toast
+          title="Đăng nhập thành công"
+          message={` Chào mừng bạn ${name} đến với trang quản lý danh sách công việc của ban`}
+        />
+      )}
+
       <Header />
       <div className="dashboard__content">
         <div className="sidebar">

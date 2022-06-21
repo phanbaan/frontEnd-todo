@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Add from "../../components/Add";
 import Table from "../../components/table";
 import Title from "../../components/title";

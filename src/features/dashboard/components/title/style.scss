@@ -17,6 +17,7 @@
     }
   }
   .right { 
+    position: relative;
     .show {
       display: flex;
       gap: 1rem;
@@ -41,13 +42,14 @@
       display: block;
     }
     .hidden {
-      display: none;
      position: absolute;
-     bottom: 0;
+     top: 100%;
      right: 2rem;
      width: 250px;
-     height: 200px;
-     box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+     height: 210px;
+     z-index: 999;
+    background: #fff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0,.3);
      &-title {
       padding: 1.5rem 0;
       text-align: center;

@@ -71,11 +71,60 @@
         cursor: pointer;
         display: inline-block;
         padding: 0 1rem;
+        position: relative;
+        &:last-child{
+          .info {
+            display: none;
+            content: "";
+            position: absolute;
+            right: 0;
+            width: 20rem;
+            height: 20rem;
+            background: #F3F2F1;
+            color: #333;
+            z-index: 999;
+            font-size: 1.5rem;
+            border-radius: 0.3rem;
+            .info-list {
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              list-style: none;
+              padding: 2rem 0rem;
+              .info-item {
+                padding: 0.7rem 1.5rem;
+                cursor: pointer;
+                transition: all ease 0.4s;
+                text-decoration: none;
+                font-size: 1.4rem;
+                font-weight: normal;
+                display: flex;
+                color: #323130;
+                gap: 1rem;
+                font-weight: 300;
+                span {
+                  font-weight: 600;
+                  text-transform: uppercase;
+                }
+                &:hover {
+                  background-color: #ededed;
+                  color: #0078D7;
+                }
+              }
+            }
+            
+          }
+          &:hover .info {
+            display: block;
+          }
+        }
         &:not(:last-child){
           line-height: 6rem;
           transition: backgroundcolor ease-in-out 1s;
+          
           &:hover {
             background-color: rgb(47, 59, 224);
+            
           }
         }
         

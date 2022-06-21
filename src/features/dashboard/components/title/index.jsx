@@ -7,15 +7,20 @@ import {
   IoStarOutline,
 } from "react-icons/io5";
 import { useDispatch } from "react-redux";
-import { filterPriority } from "../../filterSlice";
+import { filterStatus } from "../../filterSlice";
 import "./style.scss";
 const Title = ({ title, color, filter, date }) => {
+  const [statusFilter, setStatusFilter] = useState("");
+  const [isToggle, setIsToggle] = useState(false);
+
   const dispath = useDispatch();
-  const [priorityFilter, setPriorityFilter] = useState("");
-  function handlePriority() {
-    setPriorityFilter(!priorityFilter);
-    console.log(priorityFilter);
-    dispath(filterPriority(priorityFilter));
+  function handleSort() {
+    dispath(filterStatus(statusFilter));
+    setStatusFilter(!statusFilter);
+    setIsToggle(!isToggle);
+  }
+  function handleToggle() {
+    setIsToggle(!isToggle);
   }
   return (
     <div className="title">
@@ -30,44 +35,46 @@ const Title = ({ title, color, filter, date }) => {
           <div className="show">
             <div className="sort show-item">
               <AiOutlineSortAscending />
-              <span>Sắp xếp</span>
+              <span onClick={handleToggle}>Sắp xếp</span>
             </div>
-            <div className="important  show-item" onClick={handlePriority}>
+            <div className="important  show-item">
               <BsLightbulb />
-              <span>Quan trọng</span>
+              <span>Đề xuất</span>
             </div>
           </div>
-          <div className="hidden">
-            <p className="hidden-title">Sắp xếp theo</p>
-            <div className="hidden-body">
-              <ul className="sidebar__list">
-                <li className="sidebar__item">
-                  <span to="/" className="sidebar__link">
-                    <IoStarOutline className="sidebar-icon" />
-                    <span>Tầm quan trọng</span>
-                  </span>
-                </li>
-                <li className="sidebar__item">
-                  <span to="/" className="sidebar__link">
-                    <IoCalendarOutline className="sidebar-icon" />
-                    <span>Ngày đến hạn</span>
-                  </span>
-                </li>
-                <li className="sidebar__item">
-                  <span to="/" className="sidebar__link">
-                    <AiOutlineSortAscending className="sidebar-icon" />
-                    <span>Theo thứ tự bảng chữ cái</span>
-                  </span>
-                </li>
-                <li className="sidebar__item">
-                  <span to="/" className="sidebar__link">
-                    <IoCalendarNumberOutline className="sidebar-icon" />
-                    <span>Ngày tạo</span>
-                  </span>
-                </li>
-              </ul>
+          {isToggle && (
+            <div className="hidden">
+              <p className="hidden-title">Sắp xếp theo</p>
+              <div className="hidden-body">
+                <ul className="sidebar__list">
+                  <li className="sidebar__item">
+                    <span to="/" className="sidebar__link">
+                      <IoStarOutline className="sidebar-icon" />
+                      <span onClick={handleSort}>Tầm quan trọng</span>
+                    </span>
+                  </li>
+                  <li className="sidebar__item">
+                    <span to="/" className="sidebar__link">
+                      <IoCalendarOutline className="sidebar-icon" />
+                      <span>Ngày đến hạn</span>
+                    </span>
+                  </li>
+                  <li className="sidebar__item">
+                    <span to="/" className="sidebar__link">
+                      <AiOutlineSortAscending className="sidebar-icon" />
+                      <span>Theo thứ tự bảng chữ cái</span>
+                    </span>
+                  </li>
+                  <li className="sidebar__item">
+                    <span to="/" className="sidebar__link">
+                      <IoCalendarNumberOutline className="sidebar-icon" />
+                      <span>Ngày tạo</span>
+                    </span>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>

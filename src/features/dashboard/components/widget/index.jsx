@@ -1,51 +1,63 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
-  MdDeleteOutline,
-  MdOutlineLogout,
-  MdOutlineWbSunny,
-  MdOutlineNotifications,
   MdCalendarToday,
-  MdRepeat,
+  MdDeleteOutline,
   MdOutlineAttachFile,
+  MdOutlineLogout,
+  MdOutlineNotifications,
+  MdOutlineWbSunny,
+  MdRepeat,
 } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { todosSelector } from "../../../../redux/selectors";
+import { decrementCouter } from "../../filterSlice";
 import { editTodo, removeTodo } from "../../todoSlice";
 
 import Check from "../check";
 import Start from "../star";
 import "./style.scss";
 
-const Widget = ({ todoEdit }) => {
+const Widget = () => {
   const dispath = useDispatch();
+  const todos = useSelector(todosSelector);
 
-  const { id, name, priority, completed } = todoEdit;
+  const todoEdit = useSelector((state) => state.filters.todoEdit);
+  const { id, name, completed, priority } = todoEdit;
+  const [completedEdit, setCompletedEdit] = useState(completed);
+  const [priorityEdit, setPriorityEdit] = useState(priority);
+  const [nameEdit, setNameEdit] = useState(name);
+  // todoEdit?.name
 
-  const [isCheck, setIsCheck] = useState(false);
-  const [nameEdit, setNameEdit] = useState(todoEdit?.name);
-
-  function handleCheck() {
-    setIsCheck(!isCheck);
-  }
   function handleRemoveTodo() {
-    dispath(removeTodo(id));
+    const isId = todos.find((todo) => todo.id === id);
+    if (isId) {
+      const result = window.confirm(
+        `Bạn có muốn xóa công việc ${name} không ?`
+      );
+      if (result) {
+        dispath(removeTodo(id));
+        dispath(decrementCouter());
+      }
+    }
   }
   function handleOnChange(e) {
     const eTodo = e.target.value;
     setNameEdit(eTodo);
   }
-  function handleEditTodo() {
+  function handleEditTodo(e) {
+    e.preventDefault();
     const todoEdit = {};
     todoEdit.id = id;
     todoEdit.name = nameEdit;
     dispath(editTodo(todoEdit));
+    setNameEdit(name);
   }
   return (
     <div className="widget">
       <div className="widget__content">
-        <div className="content-header">
+        <form className="content-header" onSubmit={handleEditTodo} key={id}>
           <div className="check-icon">
-            <Check status={false} />
+            <Check status={completed} id={id} />
           </div>
           <input
             type="text"
@@ -55,10 +67,10 @@ const Widget = ({ todoEdit }) => {
             onChange={handleOnChange}
             onBlur={handleEditTodo}
           />
-          <div className="important-icon" onClick={handleCheck}>
-            <Start status={isCheck} />
+          <div className="important-icon">
+            <Start status={priority} id={id} />
           </div>
-        </div>
+        </form>
         <div className="widget-block">
           <button>
             <MdOutlineWbSunny />
